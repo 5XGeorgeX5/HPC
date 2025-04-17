@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
         printf("Hello from master process.\n");
         printf("Number of slave processes is %d\n", slaves);
         printf("Please enter size of array: ");
+        fflush(stdout);
         scanf("%d", &n);
         arr = (int *)malloc(n * sizeof(int));
         printf("Please enter array elements\n");
