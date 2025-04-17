@@ -40,24 +40,26 @@ int main(int argc, char *argv[])
             scanf("%d", &arr[i]);
         }
         int work = n / slaves;
+        int offset = 0;
         for (int i = 0; i < slaves - 1; i++)
         {
-            int start = i * work;
             MPI_Send(&work, 1, MPI_INT, i + 1, 0, MPI_COMM_WORLD);
-            MPI_Send(&arr[start], work, MPI_INT, i + 1, 0, MPI_COMM_WORLD);
+            MPI_Send(&arr[offset], work, MPI_INT, i + 1, 0, MPI_COMM_WORLD);
+            offset += work;
         }
-        int start = (slaves - 1) * work;
-        int workLeft = n - start;
+        int workLeft = n - offset;
         MPI_Send(&workLeft, 1, MPI_INT, size - 1, 0, MPI_COMM_WORLD);
-        MPI_Send(&arr[start], workLeft, MPI_INT, size - 1, 0, MPI_COMM_WORLD);
+        MPI_Send(&arr[offset], workLeft, MPI_INT, size - 1, 0, MPI_COMM_WORLD);
 
         int max = -2147483648;
         int index = -1;
+        offset = 0;
         for (int i = 0; i < slaves; i++)
         {
             int current_index;
             MPI_Recv(&current_index, 1, MPI_INT, i + 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            current_index += i * work;
+            current_index += offset;
+            offset += work;
             if (arr[current_index] > max)
             {
                 max = arr[current_index];
