@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <math.h>
 
-int main(int argc, int *argv[])
+int main(void)
 {
     int N;
     printf("Enter array size: ");

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-int main(int argc, int *argv[])
+int main(void)
 {
 
     srand(time(NULL));
